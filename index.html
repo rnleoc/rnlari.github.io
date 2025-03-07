@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monte Seu Pedido</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1e90ff;
+            margin-bottom: 20px;
+        }
+
+        .fase {
+            display: none;
+        }
+
+        .fase.active {
+            display: block;
+        }
+
+        .fase h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        label {
+            font-size: 18px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #eef2f3;
+            margin: 5px 0;
+            transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        label:hover {
+            background-color: #d9e3e5;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 12px;
+        }
+
+        .ingredientes, .bebidas {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        button {
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1c74d3;
+        }
+
+        .status {
+            text-align: center;
+            font-size: 20px;
+            margin-top: 20px;
+            color: #4CAF50;
+        }
+
+        .whatsapp {
+            text-align: center;
+            margin-top: 20px;
+            color: #25D366;
+            text-decoration: underline;
+            display: none;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .back-button {
+            background-color: #f44336;
+        }
+
+        .back-button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Monte Seu Pedido</h1>
+
+        <!-- Fase 1: Escolha do Produto -->
+        <div class="fase fase1 active">
+            <h3>Escolha o tipo de lanche:</h3>
+            <label><input type="radio" name="lanche" value="Cachorro-Quente" onclick="showCachorroQuenteOptions()"> Cachorro-Quente</label>
+            <label><input type="radio" name="lanche" value="Hambúrguer" onclick="showHamburguerOptions()"> Hambúrguer</label>
+            <div class="button-container">
+                <button onclick="nextFase(2)">Próxima Fase</button>
+            </div>
+        </div>
+
+        <!-- Fase 2: Escolha do tipo de Cachorro Quente -->
+        <div class="fase fase2">
+            <h3>Escolha o tipo de Cachorro-Quente:</h3>
+            <label><input type="radio" name="tipoCachorroQuente" value="Salsicha" onclick="showIngredientes()"> Salsicha</label>
+            <label><input type="radio" name="tipoCachorroQuente" value="Linguiça" onclick="showIngredientes()"> Linguiça</label>
+            <div class="button-container">
+                <button class="back-button" onclick="previousFase(1)">Voltar</button>
+                <button onclick="nextFase(3)">Próxima Fase</button>
+            </div>
+        </div>
+
+        <!-- Fase 3: Escolha do tipo de Hambúrguer -->
+        <div class="fase fase3">
+            <h3>Escolha o tipo de Hambúrguer:</h3>
+            <label><input type="radio" name="tipoHamburguer" value="X-Burguer" onclick="showIngredientes()"> X-Burguer</label>
+            <label><input type="radio" name="tipoHamburguer" value="X-Salada" onclick="showIngredientes()"> X-Salada</label>
+            <label><input type="radio" name="tipoHamburguer" value="X-Tudo" onclick="showIngredientes()"> X-Tudo</label>
+            <div class="button-container">
+                <button class="back-button" onclick="previousFase(1)">Voltar</button>
+                <button onclick="nextFase(4)">Próxima Fase</button>
+            </div>
+        </div>
+
+        <!-- Fase 4: Escolha os Ingredientes -->
+        <div class="fase fase4">
+            <h3>Escolha os ingredientes:</h3>
+            <div class="ingredientes">
+                <label><input type="checkbox" value="Queijo Cheddar"> Queijo Cheddar</label>
+                <label><input type="checkbox" value="Tomate"> Tomate</label>
+                <label><input type="checkbox" value="Alface"> Alface</label>
+                <label><input type="checkbox" value="Bacon Crocante"> Bacon Crocante</label>
+                <label><input type="checkbox" value="Cebola Caramelizada"> Cebola Caramelizada</label>
+                <label><input type="checkbox" value="Molho Barbecue"> Molho Barbecue</label>
+            </div>
+            <div class="button-container">
+                <button class="back-button" onclick="previousFase(2)">Voltar</button>
+                <button onclick="nextFase(5)">Próxima Fase</button>
+            </div>
+        </div>
+
+        <!-- Fase 5: Escolha das Bebidas -->
+        <div class="fase fase5">
+            <h3>Escolha sua bebida:</h3>
+            <div class="bebidas">
+                <label><input type="checkbox" value="Refrigerante"> Refrigerante</label>
+                <label><input type="checkbox" value="Água Mineral"> Água Mineral</label>
+                <label><input type="checkbox" value="Suco Natural"> Suco Natural</label>
+                <label><input type="checkbox" value="Cerveja"> Cerveja</label>
+            </div>
+            <div class="button-container">
+                <button class="back-button" onclick="previousFase(4)">Voltar</button>
+                <button onclick="fazerPedido()">Finalizar Pedido</button>
+            </div>
+        </div>
+
+        <p class="status" id="status">Status: Pendente</p>
+        <a href="#" id="whatsapp-link" class="whatsapp" style="display:none;">Fale conosco no WhatsApp</a>
+    </div>
+
+    <script>
+        function nextFase(fase) {
+            const fases = document.querySelectorAll('.fase');
+            fases.forEach(f => f.classList.remove('active'));
+            document.querySelector('.fase' + fase).classList.add('active');
+        }
+
+        function previousFase(fase) {
+            const fases = document.querySelectorAll('.fase');
+            fases.forEach(f => f.classList.remove('active'));
+            document.querySelector('.fase' + fase).classList.add('active');
+        }
+
+        function showCachorroQuenteOptions() {
+            document.querySelector('.fase2').classList.add('active');
+            document.querySelector('.fase3').classList.remove('active');
+        }
+
+        function showHamburguerOptions() {
+            document.querySelector('.fase3').classList.add('active');
+            document.querySelector('.fase2').classList.remove('active');
+        }
+
+        function showIngredientes() {
+            document.querySelector('.fase4').classList.add('active');
+            document.querySelector('.fase3').classList.remove('active');
+            document.querySelector('.fase2').classList.remove('active');
+        }
+
+        function fazerPedido() {
+            const nome = prompt('Digite seu nome:');
+            const lanche = document.querySelector('input[name="lanche"]:checked');
+            const tipo = document.querySelector('input[name="tipoCachorroQuente"]:checked') || document.querySelector('input[name="tipoHamburguer"]:checked');
+            const ingredientes = [
+            'Milho', 'Ervilha', 'Ketchup', 'Maionese', 'Mostarda', 
+            'Batata palha', 'Azeite', 'Bacon', 'Salsinha (ou tempero verde)',
+            'Queijo ralado', 'Molho especial', 'Tomate picado'
+            ];
+            const bebidas = [];
+
+            // Verifica se foi selecionado um lanche e tipo
+            if (!lanche || !tipo) {
+                alert('Escolha o tipo de lanche e ingrediente!');
+                return;
+            }
+
+            // Coleta os ingredientes escolhidos
+            document.querySelectorAll('.ingredientes input[type="checkbox"]:checked').forEach(checkbox => {
+                ingredientes.push(checkbox.value);
+            });
+
+            // Coleta as bebidas escolhidas
+            document.querySelectorAll('.bebidas input[type="checkbox"]:checked').forEach(checkbox => {
+                bebidas.push(checkbox.value);
+            });
+
+            if (!nome || ingredientes.length === 0) {
+                alert('Por favor, insira seu nome e escolha pelo menos um ingrediente!');
+                return;
+            }
+
+            // Atualiza o status do pedido
+            document.getElementById('status').textContent = 'Status: Preparando...';
+
+            setTimeout(() => {
+                document.getElementById('status').textContent = 'Status: Pronto! ✅';
+
+                const mensagem = `Olá, sou o ${nome}. Fiz o pedido de um ${lanche.value} com o tipo ${tipo.value} e os seguintes ingredientes: ${ingredientes.join(', ')}, e as bebidas: ${bebidas.join(', ')}.`;
+                const whatsappLink = `https://wa.me/seu-numero?text=${encodeURIComponent(mensagem)}`;
+                
+                const whatsappLinkElement = document.getElementById('whatsapp-link');
+                whatsappLinkElement.href = whatsappLink;
+                whatsappLinkElement.style.display = 'block';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
